@@ -1,36 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { ArrowLeft, ArrowRight, Play, Pause } from 'lucide-react'
 
-// const CHARACTERS = [
-//   {
-//     src: 'https://fifth-gentle-45902158.figma.site/_components/v2/4de492f6d9cf8244ad5293233e5c6f52407d42fc/1.02464a56.png',
-//     bg: '#F4845F',
-//     name: 'BLAZE',
-//     label: 'BLAZE FIGURINE',
-//     sub: 'A fiery spirit forged from lava and light. Blaze comes battle-ready with a hand-finished gloss coat and ember-etched base.',
-//   },
-//   {
-//     src: 'https://fifth-gentle-45902158.figma.site/_components/v2/4de492f6d9cf8244ad5293233e5c6f52407d42fc/2.b977faab.png',
-//     bg: '#6BBF7A',
-//     name: 'GROVE',
-//     label: 'GROVE FIGURINE',
-//     sub: "Born of moss and midnight. Grove's forest-green matte finish hides secrets only the wild woods know. A collector's rarest gem.",
-//   },
-//   {
-//     src: 'https://fifth-gentle-45902158.figma.site/_components/v2/4de492f6d9cf8244ad5293233e5c6f52407d42fc/3.4df853b4.png',
-//     bg: '#E882B4',
-//     name: 'LUMINA',
-//     label: 'LUMINA FIGURINE',
-//     sub: 'Soft power in every curve. Lumina radiates a pearlescent aura with hand-painted detail work that catches every angle of light.',
-//   },
-//   {
-//     src: 'https://fifth-gentle-45902158.figma.site/_components/v2/4de492f6d9cf8244ad5293233e5c6f52407d42fc/4.4457fbce.png',
-//     bg: '#6EB5FF',
-//     name: 'DRIFT',
-//     label: 'DRIFT FIGURINE',
-//     sub: "Cool as the open sky, sharp as a tailwind. Drift's arctic blue finish and aerodynamic sculpt make it the crown of any display.",
-//   },
-// ]
 const CHARACTERS = [
   {
     src: '/char1.png',
@@ -66,7 +36,7 @@ const GRAIN_SVG = `data:image/svg+xml,${encodeURIComponent(
   `<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.08'/></svg>`
 )}`
 
-/* ── BigTextWord: clips in from below on each character change ── */
+/* BIGTEXT */
 function BigTextWord({ text }) {
   const [displayed, setDisplayed] = useState(text)
   const [key, setKey] = useState(0)
@@ -98,7 +68,6 @@ function BigTextWord({ text }) {
   )
 }
 
-/* ── AnimatedText: fade + slide on character change ── */
 function AnimatedText({ text, style, className }) {
   const [displayed, setDisplayed] = useState(text)
   const [key, setKey] = useState(0)
@@ -118,30 +87,12 @@ function AnimatedText({ text, style, className }) {
   )
 }
 
-/* ────────────────────────────────────────────────────
-   CAROUSEL POSITION LOGIC
-   ─────────────────────────────────────────────────────
-   4 roles:  center | left | right | offscreen
-
-   "offscreen" is the 4th character that is NOT visible.
-   Its horizontal start position depends on the last
-   navigation direction so it always enters from the
-   correct edge and exits toward the correct edge:
-
-     going NEXT  →  entering character comes from the RIGHT  (right edge ~90%)
-                     exiting  character leaves  to  the LEFT  (~10%)
-     going PREV  →  entering character comes from the LEFT   (~10%)
-                     exiting  character leaves  to  the RIGHT (~90%)
-
-   opacity:0 means we never see it "sitting" out there —
-   only the smooth fade-in / fade-out is perceived.
-──────────────────────────────────────────────────── */
 export default function App() {
   const [activeIndex, setActiveIndex] = useState(0)
   const [isAnimating, setIsAnimating] = useState(false)
   const [isMobile, setIsMobile] = useState(window.innerWidth < 640)
   const [autoPlay, setAutoPlay] = useState(false)
-  // Track direction so we know which edge the offscreen char should use
+  // Track direction 
   const [dir, setDir] = useState('next')
   const intervalRef = useRef(null)
 
@@ -184,11 +135,6 @@ export default function App() {
     if (index === rightIdx)  return 'right'
     return 'offscreen'
   }
-
-  // Offscreen X depends on direction:
-  //   next → offscreen character lives near the RIGHT edge
-  //          (it was the right, will become left — enters from right on next turn)
-  //   prev → offscreen character lives near the LEFT edge
   const offLeft = dir === 'next' ? '88%' : '12%'
 
   const TRANSITION = 'transform 680ms cubic-bezier(0.4,0,0.2,1), filter 680ms cubic-bezier(0.4,0,0.2,1), opacity 680ms cubic-bezier(0.4,0,0.2,1), left 680ms cubic-bezier(0.4,0,0.2,1), height 680ms cubic-bezier(0.4,0,0.2,1), bottom 680ms cubic-bezier(0.4,0,0.2,1)'
@@ -232,7 +178,7 @@ export default function App() {
           zIndex: 10,
         }
       case 'offscreen':
-        // Invisible — only the fade + edge-drift matters
+        // Invisible 
         return {
           ...base,
           left: offLeft,
@@ -240,7 +186,7 @@ export default function App() {
           height: m ? '18%' : '30%',
           bottom: m ? '32%' : '14%',
           filter: 'blur(5px)',
-          opacity: 0,          // ← KEY: never visually present
+          opacity: 0,          
           zIndex: 1,
           pointerEvents: 'none',
         }
@@ -451,7 +397,7 @@ export default function App() {
             </div>
           </div>
 
-          {/* Bottom-right: DISCOVER IT */}
+          {/* Bottom-right: DEVELOPER -> */}
           <a
             href="#"
             className="bottom-link"
